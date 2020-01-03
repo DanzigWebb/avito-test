@@ -1,0 +1,128 @@
+body
+  margin: 0
+  padding: 0
+  font-family: sans-serif
+h1
+  font-size: 36px
+  text-align: center
+  text-transform: uppercase
+  font-weight: normal
+.img-wrapper
+  max-width: 900px
+  margin: auto
+  display: grid
+  grid-template-columns: 1fr 1fr 1fr
+  grid-gap: 20px
+  padding: 40px
+  @media (max-width: 700px)
+    grid-template-columns: 1fr 1fr
+  @media (max-width: 480px)
+    grid-template-columns: 1fr
+    padding: 15px
+    grid-gap: 40px
+  img
+    align-self: center
+    justify-self: center
+    width: 100%
+    transition: .4s ease all
+    &:hover
+      cursor: pointer
+      transform: scale(1.05)
+
+
+.footer
+  padding: 25px 0
+  text-align: center
+  color: #ccc
+  border-top: 1px solid #dedede
+  max-width: 92%
+  margin: auto
+  margin-top: 50px
+
+.modal
+  position: fixed
+  width: 100%
+  height: 100%
+  max-width: 650px
+  top: 50%
+  left: 50%
+  transform: translateY(-50%) translateX(-50%)
+  margin: auto
+  align-items: center
+  justify-content: center
+  display: none
+  z-index: 10
+  opacity: 0
+  transition: ease all .4s
+  &.active
+    opacity: 1
+    display: flex
+    animation: overlay .5s ease
+  &.before-hide
+    opacity: 0
+.modal__content
+  background-color: #fff
+  padding: 25px
+  width: 100%
+  max-width: 650px
+  display: flex
+.modal__form
+  display: flex
+  flex-direction: column
+  input
+    background: #FFFFFF
+    border: 1px solid #CCCCCC
+    box-sizing: border-box
+    border-radius: 3px
+    margin-bottom: 30px
+    height: 30px
+    padding-left: 15px
+.modal__img
+  padding-bottom: 40px
+  height: auto
+  img
+    width: 100%
+.modal__main
+  width: 65%
+.modal__comments
+  width: 35%
+.btn
+  height: 30px
+  background: #4997D0
+  border-radius: 3px
+  border: none
+  color: #fff
+
+
+
+.overlay
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  z-index: 2
+  opacity: 0
+  background-color: #000
+  display: none
+  transition: .4s ease all
+  &.active
+    display: block
+    opacity: 0.6
+    animation: overlay .6s ease
+  &.before-hide
+    opacity: 0
+
+@keyframes overlay
+  0%
+    opacity: 0
+  100%
+    opacity: 0.6
+
+@keyframes modal
+  0%
+    transform: translateY(-140px)
+    opacity: 0
+  100%
+    opacity: 1
+    transform: translateY(0)

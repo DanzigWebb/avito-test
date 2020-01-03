@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Avito</title>
+
+  <link rel="stylesheet" href="styles/css/main.css">
+</head>
+
+<body>
+  <header class="header">
+    <h1>Test APP</h1>
+  </header>
+  <main class="main">
+    <div class="img-wrapper"></div>
+  </main>
+  <footer class="footer">
+    <p>© 2018-2019</p>
+  </footer>
+
+  <div class="modal">
+    <div class="modal__content">
+      <div class="modal__main">
+        <div class="modal__img">
+          <img src="" alt="">
+        </div>
+        <form action="" class="modal__form" method="POST">
+          <input type="text" placeholder="Ваше имя">
+          <input type="text" placeholder="Ваш комментарий">
+          <button class="btn">Оставить комментарий</button>
+        </form>
+      </div>
+      <div class="modal__comments">
+      </div>
+    </div>
+  </div>
+  <div class="overlay"></div>
+</body>
+
+<script>
+
+  const modal = document.querySelector('.modal');
+  const overlay = document.querySelector('.overlay');
+
+  const url = 'https://boiling-refuge-66454.herokuapp.com/images/';
+  fetch(url)
+    .then(response => response.json())
+    .then(images => {
+      parseToHtml(images);
+      fillModalByContent();
+    });
+
+
+  overlay.addEventListener('click', () => {
+    hideModal()
+  })
+
+
+
+  const parseToHtml = (data) => {
+    const html = data.reduce((acc, item) => {
+      acc += `<img src="${item.url}" data-id="${item.id}">`;
+      return acc
+    }, '');
+    const imgContent = document.querySelector('.img-wrapper')
+    imgContent.innerHTML = html;
+  }
+
+  const fillModalByContent = () => {
+    const imges = document.querySelectorAll('.img-wrapper img');
+    imges.forEach((img, i) => {
+      img.addEventListener('click', () => {
+        fetch(url + img.getAttribute('data-id'))
+          .then(response => response.json())
+          .then(imageInfo => {
+            takeModalContent(imageInfo)
+          });
+      })
+    })
+  }
+
+  const takeModalContent = image => {
+    const modalPhoto = modal.querySelector('.modal__img img');
+    const commentsWrap = modal.querySelector('.modal__comments');
+    const comments = image.comments;
+    const commentsContent = comments.reduce((acc, comment) => {
+      acc += comment.text;
+      return acc;
+    }, '');
+    modalPhoto.src = image.url;
+    commentsWrap.innerHTML = commentsContent
+    modal.addEventListener('DOMContentLoaded', () => {
+      showModal()
+    })
+  }
+  const showModal = () => {
+    modal.classList.add('active')
+    overlay.classList.add('active');
+  }
+  const hideModal = () => {
+    const hide = (element) => {
+      element.classList.add('before-hide');
+      setTimeout(() => {
+        element.classList.remove('before-hide');
+        element.classList.remove('active')
+      }, 400);
+    };
+    hide(modal);
+    hide(overlay);
+  }
+
+</script>
+
+</html>
