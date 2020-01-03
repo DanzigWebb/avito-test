@@ -92,9 +92,9 @@
     }, '');
     modalPhoto.src = image.url;
     commentsWrap.innerHTML = commentsContent
-    modal.addEventListener('DOMContentLoaded', () => {
+    modal.onload = () => {
       showModal()
-    })
+    }
   }
   const showModal = () => {
     modal.classList.add('active')
